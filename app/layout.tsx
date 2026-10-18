@@ -1,6 +1,6 @@
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
-import { isAdmin } from '@/lib/admin'
+import { currentAdminMode, isAdmin } from '@/lib/admin'
 import { CartProvider } from '@/lib/cart'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
@@ -35,9 +35,10 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const admin = await isAdmin()
+  const adminMode = await currentAdminMode()
 
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable}`}>
+    <html lang="en" className={`${serif.variable} ${sans.variable}`} data-admin-mode={adminMode}>
       <body>
         {admin ? (
           <CartProvider>

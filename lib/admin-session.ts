@@ -1,5 +1,10 @@
+import { ADMIN_VARIABLES, type AdminMode } from '@/lib/admin-mode'
+
 export const ADMIN_COOKIE = 'rack_city_admin'
 const SESSION_SECONDS = 60 * 60 * 24 * 7
+const BUILTIN_USERNAME = 'RackCityAdmin'
+const BUILTIN_PASSWORD = 'rackcityadminNorthWest2026'
+const BUILTIN_SESSION_SECRET = '7c4e9a1b2d8f06a3e5c7b9d1f4a6c8e0b2d4f6a8c0e2b4d6f8a0c2e4b6d8f0a2'
 
 export function adminCookieOptions() {
   return {
@@ -11,9 +16,18 @@ export function adminCookieOptions() {
   }
 }
 
-function sessionSecret() {
+function sessionSecret(mode: AdminMode) {
+  if (mode === 'off') return BUILTIN_SESSION_SECRET
   const secret = process.env.ADMIN_SESSION_SECRET?.trim()
   return secret || null
+}
+
+export function adminVariableStatus() {
+  return ADMIN_VARIABLES.map((variable) => ({
+    name: variable.name,
+    label: variable.label,
+    configured: Boolean(process.env[variable.name]?.trim()),
+  }))
 }
 
 function toBase64Url(bytes: Uint8Array) {
@@ -45,15 +59,15 @@ async function sign(value: string, secret: string) {
   return toBase64Url(new Uint8Array(signature))
 }
 
-export function credentialsMatch(username: string, password: string) {
-  const expectedUser = process.env.ADMIN_USERNAME?.trim() ?? ''
-  const expectedPass = process.env.ADMIN_PASSWORD ?? ''
+export function credentialsMatch(username: string, password: string, mode: AdminMode) {
+  const expectedUser = mode === 'advanced' ? (process.env.ADMIN_USERNAME?.trim() ?? '') : BUILTIN_USERNAME
+  const expectedPass = mode === 'advanced' ? (process.env.ADMIN_PASSWORD ?? '') : BUILTIN_PASSWORD
   if (!expectedUser || !expectedPass) return false
   return safeEqual(username, expectedUser) && safeEqual(password, expectedPass)
 }
 
-export async function createSessionToken() {
-  const secret = sessionSecret()
+export async function createSessionToken(mode: AdminMode) {
+  const secret = sessionSecret(mode)
   if (!secret) return null
   const exp = Math.floor(Date.now() / 1000) + SESSION_SECONDS
   const payload = toBase64Url(new TextEncoder().encode(JSON.stringify({ exp })))
@@ -61,8 +75,8 @@ export async function createSessionToken() {
   return `${payload}.${signature}`
 }
 
-export async function verifySessionToken(token: string | undefined) {
-  const secret = sessionSecret()
+export async function verifySessionToken(token: string | undefined, mode: AdminMode) {
+  const secret = sessionSecret(mode)
   if (!secret || !token) return false
   const parts = token.split('.')
   if (parts.length !== 2) return false

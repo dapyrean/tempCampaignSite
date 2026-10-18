@@ -1,6 +1,7 @@
 import { ComingSoon } from '@/components/coming-soon'
 import { StoreHome } from '@/components/store-home'
-import { isAdmin } from '@/lib/admin'
+import { currentAdminMode, isAdmin } from '@/lib/admin'
+import { adminVariableStatus } from '@/lib/admin-session'
 import type { Metadata } from 'next'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,6 +18,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  if (!(await isAdmin())) return <ComingSoon />
+  if (!(await isAdmin())) {
+    const mode = await currentAdminMode()
+    return <ComingSoon mode={mode} variables={mode === 'advanced' ? adminVariableStatus() : []} />
+  }
   return <StoreHome />
 }
