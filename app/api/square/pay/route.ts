@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     const buyer = parseBuyer(body.buyer)
     if (!config.embeddedReady) {
       throw new SquareError(
-        'Card checkout needs SQUARE_ACCESS_TOKEN, SQUARE_LOCATION_ID, and SQUARE_APPLICATION_ID in .env.local.',
+        'Card checkout needs SQUARE_ACCESS_TOKEN, SQUARE_LOCATION_ID, and SQUARE_APPLICATION_ID.',
         503,
       )
     }

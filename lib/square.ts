@@ -48,7 +48,7 @@ export function squareConfig() {
 export async function squareRequest<T>(path: string, body: unknown): Promise<T> {
   const config = squareConfig()
   if (!config.accessToken) {
-    throw new SquareError('Square is not connected. Add SQUARE_ACCESS_TOKEN to .env.local and restart the server.', 503)
+    throw new SquareError('Square is not connected. Set SQUARE_ACCESS_TOKEN in the hosting environment.', 503)
   }
 
   const response = await fetch(`${config.baseUrl}${path}`, {

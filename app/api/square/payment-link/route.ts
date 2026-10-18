@@ -8,6 +8,7 @@ import {
   squareConfig,
   squareRequest,
 } from '@/lib/square'
+import { siteOrigin } from '@/lib/site-url'
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
@@ -28,9 +29,9 @@ export async function POST(request: Request) {
     const lines = resolveLines(parseBag(body.items))
     const buyer = parseBuyer(body.buyer)
     if (!config.hostedReady) {
-      throw new SquareError('Square checkout needs SQUARE_ACCESS_TOKEN and SQUARE_LOCATION_ID in .env.local.', 503)
+      throw new SquareError('Square checkout needs SQUARE_ACCESS_TOKEN and SQUARE_LOCATION_ID.', 503)
     }
-    const origin = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || new URL(request.url).origin
+    const origin = siteOrigin(request)
 
     const payload = {
       idempotency_key: idempotencyKey,

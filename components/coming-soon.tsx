@@ -18,8 +18,9 @@ export function ComingSoon() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       })
+      const data = (await response.json().catch(() => null)) as { error?: unknown } | null
       if (!response.ok) {
-        setError('That sign-in was not recognized.')
+        setError(typeof data?.error === 'string' ? data.error : 'That sign-in was not recognized.')
         setPending(false)
         return
       }
