@@ -11,7 +11,6 @@ export async function proxy(request: NextRequest) {
     pathname === '/' ||
     pathname === '/api/admin/login' ||
     pathname === '/api/admin/logout' ||
-    pathname === '/api/admin/mode' ||
     PUBLIC_FILE.test(pathname)
   ) {
     return NextResponse.next()

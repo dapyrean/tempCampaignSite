@@ -7,7 +7,7 @@ export function StoreHome() {
     <main>
       <section className="hero">
         <div className="wrap hero-inner">
-          <img className="hero-logo" src="/brand/rack-city-logo.jpg" width={240} height={314} alt="Rack City logo: a gold hanger shaped into a city skyline" />
+          <img className="hero-logo" src="/brand/rack-city-mark.png" width={1680} height={1206} alt="Rack City" />
           <p className="tagline">
             <span />
             Retail reimagined.

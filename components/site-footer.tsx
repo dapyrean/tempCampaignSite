@@ -5,7 +5,7 @@ export function SiteFooter() {
     <footer className="footer">
       <div className="wrap footer-grid">
         <div className="footer-brand">
-          <img src="/brand/rack-city-logo.jpg" alt="Rack City. Retail reimagined." />
+          <img src="/brand/rack-city-mark.png" alt="Rack City" />
           <p className="tagline">
             <span />
             Retail reimagined.

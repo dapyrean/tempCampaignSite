@@ -4,7 +4,7 @@ import { currentAdminMode, isAdmin } from '@/lib/admin'
 import { CartProvider } from '@/lib/cart'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, Outfit } from 'next/font/google'
+import { Convergence, Cormorant_Garamond, Outfit, Ramabhadra } from 'next/font/google'
 import './globals.css'
 
 const serif = Cormorant_Garamond({
@@ -22,10 +22,24 @@ const sans = Outfit({
   display: 'swap',
 })
 
+const ramabhadra = Ramabhadra({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-ramabhadra',
+  display: 'swap',
+})
+
+const convergence = Convergence({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-convergence',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   title: 'Rack City — Retail Reimagined',
   description: 'Rack City is a black-and-gold clothing house. Shop the edit and pay with Square.',
-  icons: { icon: '/brand/rack-city-logo.jpg', apple: '/brand/rack-city-logo.jpg' },
+  icons: { icon: '/brand/rack-city-mark.png', apple: '/brand/rack-city-mark.png' },
 }
 
 export const viewport: Viewport = {
@@ -38,7 +52,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const adminMode = await currentAdminMode()
 
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable}`} data-admin-mode={adminMode}>
+    <html lang="en" className={`${serif.variable} ${sans.variable} ${ramabhadra.variable} ${convergence.variable}`} data-admin-mode={adminMode}>
       <body>
         {admin ? (
           <CartProvider>

@@ -32,7 +32,7 @@ export function SiteHeader() {
           {open ? <X /> : <Menu />}
         </button>
         <Link className="brand" href="/" aria-label="Rack City home">
-          <img className="brand-mark" src="/brand/rack-city-logo.jpg" alt="" />
+          <img className="brand-mark" src="/brand/rack-city-mark.png" alt="" />
           <span className="brand-lockup">
             <span className="brand-name">Rack City</span>
             <span className="brand-tag">Retail reimagined</span>
@@ -49,6 +49,9 @@ export function SiteHeader() {
             <Search />
             <input name="q" placeholder="Search the edit" aria-label="Search the edit" />
           </form>
+          <Link className="profile-link" href="/profile">
+            Profile
+          </Link>
           <AdminSignOut />
         </nav>
         <div className="header-tools">
@@ -56,6 +59,9 @@ export function SiteHeader() {
             <Search />
             <input name="q" placeholder="Search" aria-label="Search the edit" />
           </form>
+          <Link className="profile-link" href="/profile">
+            Profile
+          </Link>
           <AdminSignOut />
           <Link className="bag" href="/cart" aria-label={`Bag, ${count} ${count === 1 ? 'piece' : 'pieces'}`}>
             <ShoppingBag />
