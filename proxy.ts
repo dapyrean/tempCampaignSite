@@ -9,6 +9,7 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   if (
     pathname === '/' ||
+    pathname === '/admin' ||
     pathname === '/api/admin/login' ||
     pathname === '/api/admin/logout' ||
     PUBLIC_FILE.test(pathname)
